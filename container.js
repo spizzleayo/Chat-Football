@@ -5,7 +5,8 @@ const container = dependable.container();
 
 const simpleDependencies = [
     ['_', 'lodash'],
-    ['passport', 'passport']
+    ['passport', 'passport'],
+    ['validator', 'validator']
 ];
 
 simpleDependencies.forEach(val => {
@@ -14,8 +15,8 @@ simpleDependencies.forEach(val => {
     })
 });
 
-container.load(path.join(__dirname, '/controllers'));
 container.load(path.join(__dirname, '/helpers'));
+container.load(path.join(__dirname, '/controllers'));
 
 container.register('container', function () {
     return container;
