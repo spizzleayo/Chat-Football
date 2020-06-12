@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/nikhilcares22/footballkik#readme",
   "dependencies": {
+    "async": "^3.2.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "connect-flash": "^0.1.1",
@@ -28,8 +29,10 @@
     "express-promise-router": "^4.0.1",
     "express-session": "^1.17.1",
     "express-validator": "^6.6.1",
+    "formidable": "^1.2.2",
     "lodash": "^4.17.20",
     "mongoose": "^5.10.14",
+    "multer": "^1.4.2",
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth": "^2.0.0",

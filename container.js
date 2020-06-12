@@ -6,13 +6,16 @@ const container = dependable.container();
 const simpleDependencies = [
     ['_', 'lodash'],
     ['passport', 'passport'],
-    ['validator', 'validator']
+    ['async', 'async'],
+    ['validator', 'validator'],
+    ['formidable', 'formidable'],
+    ['Club', './models/clubs']
 ];
 
 simpleDependencies.forEach(val => {
     container.register(val[0], function () {
         return require(val[1]);
-    })
+    });
 });
 
 container.load(path.join(__dirname, '/helpers'));

@@ -4,7 +4,6 @@ module.exports = function (_, passport, User) {
         SetRouting: function (router) {
             router.get('/', this.indexPage);
             router.get('/signup', this.getSignup);
-            router.get('/home', this.homePage);
             router.get('/auth/facebook', this.getFacebookLogin);
             router.get('/auth/facebook/callback', this.facebookLogin);
             router.get('/auth/google', this.getGoogleLogin);
@@ -55,10 +54,6 @@ module.exports = function (_, passport, User) {
         }),
 
 
-
-        homePage: function (req, res) {
-            return res.render('home');
-        },
 
 
     };

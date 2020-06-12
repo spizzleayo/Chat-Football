@@ -13,13 +13,13 @@ const express = require('express'),
     container = require('./container');
 
 
-container.resolve((users, _) => {
+container.resolve((users, admin, home, _) => {
     mongoose.Promise = global.Promise;
     mongoose.connect('mongodb://localhost/footballkik', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
-    const app = SetupExpress(users);
+    const app = SetupExpress(users, admin, home);
 
-    function SetupExpress(users) {
+    function SetupExpress(users, admin, home) {
         const app = express();
         const server = http.createServer(app);
         server.listen(PORT, () => {
@@ -30,6 +30,8 @@ container.resolve((users, _) => {
         //setup router 
         const router = require('express-promise-router')();
         users.SetRouting(router);
+        admin.SetRouting(router);
+        home.SetRouting(router);
 
         app.use(router);
     }
@@ -57,6 +59,8 @@ container.resolve((users, _) => {
 
         app.use(passport.initialize());
         app.use(passport.session());
+
+        // app.locals._ = _;
     };
 });
 
