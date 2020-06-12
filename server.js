@@ -10,28 +10,32 @@ const express = require('express'),
     MongoStore = require('connect-mongo')(session),
     flash = require('connect-flash'),
     passport = require('passport'),
+    socketIO = require('socket.io'),
     container = require('./container');
 
 
-container.resolve((users, admin, home, _) => {
+container.resolve((users, admin, home, group, _) => {
     mongoose.Promise = global.Promise;
     mongoose.connect('mongodb://localhost/footballkik', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
-    const app = SetupExpress(users, admin, home);
+    const app = SetupExpress(users, admin, home, group);
 
-    function SetupExpress(users, admin, home) {
+    function SetupExpress(users, admin, home, group) {
         const app = express();
         const server = http.createServer(app);
+        const io = socketIO(server);
         server.listen(PORT, () => {
             console.log(`server listening at ${PORT}`);
         });
         ConfigureExpress(app);
 
+        require('./sockets/groupChat')(io);
         //setup router 
         const router = require('express-promise-router')();
         users.SetRouting(router);
         admin.SetRouting(router);
         home.SetRouting(router);
+        group.SetRouting(router);
 
         app.use(router);
     }

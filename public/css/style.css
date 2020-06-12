@@ -108,6 +108,9 @@ body {
   padding: 5px 2px;
   font-weight: bold;
 }
+.thumbnail {
+  padding-bottom: 10px;
+}
 .add-apply {
   background-color: #4aa1f3;
   width: 100%;

@@ -19,19 +19,18 @@ passport.use(new GoogleStrategy({
     callbackURL: 'http://localhost:8080/auth/google/callback',
     passReqToCallback: true
 }, (req, accessToken, refreshToken, profile, done) => {
-    console.log(profile);
+    // console.log(profile);
     User.findOne({ 'google': profile.id }, (err, user) => {
         if (err) {
             return done(err);
         }
-
         if (user) {
             return done(null, user);
         } else {
             const newUser = new User();
             newUser.google = profile.id;
             newUser.fullname = profile.displayName;
-            newUser.email = profile.emails[0].values;
+            newUser.email = profile.emails[0].value;
             newUser.userImage = profile._json.picture;
 
             newUser.save(err => {

@@ -13,10 +13,12 @@ module.exports = function (formidable, Club) {
             res.render('admin/dashboard');
         },
         adminPostPage: function (req, res) {
+            req.body.country = req.body.country.charAt(0).toUpperCase() + req.body.country.slice(1).toLowerCase();
+            let { club, country, upload } = req.body;
             const newClub = new Club();
-            newClub.name = req.body.club;
-            newClub.country = req.body.country;
-            newClub.image = req.body.upload;
+            newClub.name = club;
+            newClub.country = country;
+            newClub.image = upload;
             newClub.save((err) => {
                 if (err) throw err;
                 res.render('admin/dashboard');
