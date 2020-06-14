@@ -11,6 +11,7 @@ const express = require('express'),
     flash = require('connect-flash'),
     passport = require('passport'),
     socketIO = require('socket.io'),
+    { Users } = require('./helpers/UsersClass'),
     container = require('./container');
 
 
@@ -29,7 +30,7 @@ container.resolve((users, admin, home, group, _) => {
         });
         ConfigureExpress(app);
 
-        require('./sockets/groupChat')(io);
+        require('./sockets/groupChat')(io, Users);
         //setup router 
         const router = require('express-promise-router')();
         users.SetRouting(router);

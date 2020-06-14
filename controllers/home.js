@@ -49,7 +49,7 @@ module.exports = function (async, Club, _) {
                 // console.log(res2);
 
 
-                res.render('home', { title: 'Footballkik-home', data: dataChunk, countries: res2 });
+                res.render('home', { title: 'Footballkik-home', data: dataChunk, user: req.user, countries: res2 });
             });
         }
     };

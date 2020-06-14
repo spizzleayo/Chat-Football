@@ -29,8 +29,6 @@ module.exports = function (_, passport, User) {
             successRedirect: '/home',
             failureRedirect: '/signup',
             failureFlash: true,
-        }, (req, res) => {
-            console.log('hi');
         }),
 
         getFacebookLogin: passport.authenticate('facebook', {

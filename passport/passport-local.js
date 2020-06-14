@@ -22,15 +22,17 @@ passport.use('local.signup', new LocalStrategy({
             return done(err);
         }
         if (user) {
-            return done(null, false, req.flash('error', 'User with email allready exists'));
+            return done(null, false, req.flash('error', 'User with email already exists'));
         }
         const newUser = new User();
         newUser.username = req.body.username;
+        newUser.fullname = req.body.username;
         newUser.email = req.body.email;
         newUser.password = newUser.encryptPassword(req.body.password);
         newUser.save((err) => {
+            if (err) return done(err);
             done(null, newUser);
-        })
+        });
     });
 
 }));
@@ -48,7 +50,7 @@ passport.use('local.login', new LocalStrategy({
         const messages = [];
 
         if (!user || !user.validUserPassword(password)) {
-            messages.push("Email does not exists or invalid password")
+            messages.push("Email does not exists or invalid password");
             return done(null, false, req.flash('error', messages));
         }
         return done(null, user);

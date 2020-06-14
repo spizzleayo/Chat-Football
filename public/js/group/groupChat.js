@@ -7,7 +7,8 @@ $(document).ready(function () {
         console.log('yea! user connected');
 
         let params = {
-            room: room
+            room: room,
+            name: sender
         };
         socket.emit('join', params, function () {
             console.log('user joined the channel ', params.room);
@@ -29,6 +30,18 @@ $(document).ready(function () {
         });
 
     });
+
+    socket.on('usersList', function (users) {
+        let ol = $('<ol></ol>');
+        users.forEach(user => {
+            ol.append(`<p><a id="val" data-toggle="modal" data-target="#myModal" >${user}</a></p>`);
+        });
+        // console.log(ol);
+
+        $('#users').html(ol);
+        $('#numValue').text(`(${users.length})`);
+    });
+
     socket.on('newMessage', function (data) {
         // console.log(data.room);
         var template = $('#message-template').html();
