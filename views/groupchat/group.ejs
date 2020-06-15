@@ -207,7 +207,7 @@
                             type="hidden"
                             name="sender-name"
                             id="sender-name"
-                            value=""
+                            value="<%=user.username%>"
                           />
                           <button type="submit" id="friend-add" class="btn add">
                             <i class="fa fa-user"></i> Add Friend
@@ -249,5 +249,6 @@
     ></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/group/groupChat.js"></script>
+    <script src="/js/group/sendRequest.js"></script>
   </body>
 </html>
