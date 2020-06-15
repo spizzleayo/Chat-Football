@@ -18,15 +18,17 @@ $(document).ready(function () {
 
         $('#add_friend').on('submit', function (e) {
             e.preventDefault();
+            console.log('hih');
 
             let receiverName = $('#receiverName').val();
+            console.log('receiverName', receiverName);
 
 
             $.ajax({
                 url: '/group/' + room,
                 type: 'POST',
                 data: {
-                    receiver: receiverName,
+                    receiverName: receiverName,
                 },
                 success: function () {
                     socket.emit('friendRequest', {

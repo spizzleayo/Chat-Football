@@ -3,7 +3,7 @@ module.exports = function (Users, async) {
     return {
         SetRouting: function (router) {
             router.get('/group/:name', this.groupPage);
-            router.post('/group/:name', this.postPage);
+            router.post('/group/:name', this.groupPostPage);
 
         },
         groupPage: function (req, res) {
@@ -12,9 +12,10 @@ module.exports = function (Users, async) {
             res.render('groupchat/group', { title: 'Footballkik-Group', groupName: name, user: req.user });
         },
 
-        postPage: function (req, res) {
+        groupPostPage: function (req, res) {
             async.parallel([
                 function (callback) {
+                    // console.log('body is', req.body);
                     if (req.body.receiverName) {
                         Users.update({
                             'username': req.body.receiverName,
@@ -34,8 +35,29 @@ module.exports = function (Users, async) {
                             }
                         );
                     }
+                },
+
+                function (callback) {
+                    if (req.body.receiverName) {
+                        Users.update({
+                            'username': req.user.username,
+                            'sentRequest.username': { $ne: req.body.receiverName }
+                        },
+                            {
+                                $push: {
+                                    sentRequest: {
+                                        username: req.body.receiverName
+                                    }
+                                }
+                            },
+                            (err, count) => {
+                                callback(err, count);
+                            });
+                    }
                 }
-            ]);
+            ], (err, result) => {
+                res.redirect('/group/' + req.params.name);
+            });
         }
     };
 };
