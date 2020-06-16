@@ -8,6 +8,7 @@ const simpleDependencies = [
     ['passport', 'passport'],
     ['async', 'async'],
     ['validator', 'validator'],
+    ['Users', './models/users'],
     ['formidable', 'formidable'],
     ['Club', './models/clubs']
 ];
