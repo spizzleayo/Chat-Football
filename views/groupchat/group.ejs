@@ -26,6 +26,8 @@
 
   <body>
     <%- include ('../partials/navbar')%>
+    <input type="hidden" id="name-user" value="<%=user.username%>" />
+    <input type="hidden" id="name-img" value="<%=user.userImage%>" />
     <div class="col-md-12">
       <div class="col-md-12">
         <div class="chat_container">
@@ -78,7 +80,12 @@
                               Online Friends <span id="numOfFriends"></span>
                             </p>
                             <hr style="margin-top: 10px" />
-
+                            <% if(data.friendsList.length > 0){ %> <%
+                            data.friendsList.forEach(function(value){ %>
+                            <div class="friend" hidden>
+                              @<%= value.friendName%>
+                            </div>
+                            <%}) %> <% }%>
                             <div class="onlineFriends"></div>
                           </div>
                         </div>
@@ -250,5 +257,6 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/group/groupChat.js"></script>
     <script src="/js/group/sendRequest.js"></script>
+    <script src="/js/global.js"></script>
   </body>
 </html>

@@ -4,8 +4,8 @@ class Global {
     }
 
     EnterRoom(id, name, room, img) {
-        let users = { id, name, room, img };
-        this.globalRoom.push(users);
+        let roomName = { id, name, room, img };
+        this.globalRoom.push(roomName);
         return roomName;
     }
 

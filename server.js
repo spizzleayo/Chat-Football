@@ -13,10 +13,11 @@ const express = require('express'),
     socketIO = require('socket.io'),
     { Users } = require('./helpers/UsersClass'),
     { Global } = require('./helpers/Global'),
+    _ = require('lodash'),
     container = require('./container');
 
 
-container.resolve((users, admin, home, group, _) => {
+container.resolve((users, admin, home, group) => {
     mongoose.Promise = global.Promise;
     mongoose.connect('mongodb://localhost/footballkik', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
@@ -33,7 +34,7 @@ container.resolve((users, admin, home, group, _) => {
 
         require('./sockets/groupChat')(io, Users);
         require('./sockets/friend')(io);
-        require('./sockets/globalRoom')(io, Global);
+        require('./sockets/globalRoom')(io, Global, _);
 
         //setup router 
         const router = require('express-promise-router')();
