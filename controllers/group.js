@@ -9,7 +9,19 @@ module.exports = function (Users, async) {
         groupPage: function (req, res) {
             const { name } = req.params;
 
-            res.render('groupchat/group', { title: 'Footballkik-Group', groupName: name, user: req.user });
+            async.parallel([
+                function (callback) {
+                    Users.findOne({ 'username': req.user.username })
+                        .populate('request.userId')
+                        .exec((err, result) => {
+                            callback(err, result);
+                        });
+                }
+            ], (err, results) => {
+                const result1 = results[0];
+                console.log('result1 length', result1.request.length);
+                res.render('groupchat/group', { title: 'Footballkik-Group', groupName: name, user: req.user, data: result1 });
+            });
         },
 
         groupPostPage: function (req, res) {
