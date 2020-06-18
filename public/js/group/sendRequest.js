@@ -13,16 +13,31 @@ $(document).ready(function () {
         });
 
         socket.on('newFriendRequest', function (friend) {
-            console.log(friend);
+            $('#reload').load(location.href + '#reload');
+
+            $(document).on('click', '#accept_friend', function () {
+                let senderId = $('#senderId').val();
+                let senderName = $('#senderName').val();
+
+                $.ajax({
+                    url: '/group/' + room,
+                    type: 'POST',
+                    data: {
+                        senderId: senderId,
+                        senderName: senderName,
+                    },
+                    success: function () {
+                        $(this).parent().eq(1).remove();
+                    }
+                });
+                $('#reload').load(location.href + '#reload');
+            });
         });
 
         $('#add_friend').on('submit', function (e) {
             e.preventDefault();
-            console.log('hih');
 
             let receiverName = $('#receiverName').val();
-            console.log('receiverName', receiverName);
-
 
             $.ajax({
                 url: '/group/' + room,
@@ -39,6 +54,42 @@ $(document).ready(function () {
                     });
                 }
             });
+        });
+
+        $('#accept_friend').on('click', function () {
+            let senderId = $('#senderId').val();
+            let senderName = $('#senderName').val();
+
+            $.ajax({
+                url: '/group/' + room,
+                type: 'POST',
+                data: {
+                    senderId: senderId,
+                    senderName: senderName,
+                },
+                success: function () {
+                    $(this).parent().eq(1).remove();
+                }
+            });
+            $('#reload').load(location.href + '#reload');
+        });
+
+        $('#cancel_friend').on('click', function () {
+            let senderId = $('#user_id').val();
+            let senderName = $('#user_name').val();
+
+            $.ajax({
+                url: '/group/' + room,
+                type: 'POST',
+                data: {
+                    senderId: senderId,
+                    senderName: senderName,
+                },
+                success: function () {
+                    $(this).parent().eq(1).remove();
+                }
+            });
+            $('#reload').load(location.href + '#reload');
         });
     });
 })
