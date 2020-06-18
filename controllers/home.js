@@ -3,6 +3,7 @@ module.exports = function (async, Club, _, Users) {
     return {
         SetRouting: function (router) {
             router.get('/home', this.homePage);
+            router.post('/home', this.postHomePage);
 
         },
         homePage: function (req, res) {
@@ -57,6 +58,29 @@ module.exports = function (async, Club, _, Users) {
 
 
                 res.render('home', { title: 'Footballkik-home', chunks: dataChunk, user: req.user, countries: res2, data: res3 });
+            });
+        },
+        postHomePage: function (req, res) {
+            async.parallel([
+                function (callback) {
+                    Club.update({
+                        _id: req.body.id,
+                        'fans.username': { $ne: req.user.username }
+                    },
+                        {
+                            $push: {
+                                fans: {
+                                    username: req.user.username,
+                                    email: req.user.email
+                                }
+                            }
+                        }, (err, count) => {
+                            callback(err, count);
+                        }
+                    );
+                }
+            ], (err, results) => {
+                res.redirect('/home');
             });
         }
     };

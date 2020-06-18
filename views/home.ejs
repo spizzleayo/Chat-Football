@@ -41,6 +41,8 @@
     </div>
 
     <div class="col-md-12">
+      <input type="hidden" id="name-user" value="<%=user.username%>" />
+      <input type="hidden" id="name-img" value="<%=user.userImage%>" />
       <div class="">
         <div class="row">
           <div class="col-md-3">
@@ -80,7 +82,7 @@
               <div class="category-list">
                 <div class="row">
                   <% val.forEach(function(val2){%>
-                  <form action="#" method="post" id="add-fav">
+                  <form action="/home" method="post" id="favorite">
                     <div class="item col-md-4">
                       <a
                         style="text-decoration: none"
@@ -90,6 +92,7 @@
                           <img alt="" src="/uploads/<%=val2.image %>" />
                           <div class="caption">
                             <h4><%= val2.name %></h4>
+                            (<%= val2.fans.length %>)
 
                             <div class="row">
                               <div class="col-xs-12 col-md-6">
@@ -97,6 +100,18 @@
                               </div>
 
                               <div class="col-xs-12 col-md-6">
+                                <input
+                                  type="hidden"
+                                  name="id"
+                                  id="id"
+                                  value="<%=val2._id%>"
+                                />
+                                <input
+                                  type="hidden"
+                                  name="clubName"
+                                  id="clubName"
+                                  value="<%=val2.name%>"
+                                />
                                 <button class="btn add-fav">
                                   Add To Favorite
                                 </button>
@@ -124,5 +139,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="/js/group/sendRequest.js"></script>
+    <script src="/js/home.js"></script>
+    <script src="/js/global.js"></script>
   </body>
 </html>
