@@ -32,6 +32,22 @@ $(document).ready(function () {
                 });
                 $('#reload').load(location.href + '#reload');
             });
+
+            $(document).on('click', '#cancel_friend', function () {
+                let user_id = $('#user_id').val();
+
+                $.ajax({
+                    url: '/group/' + room,
+                    type: 'POST',
+                    data: {
+                        user_id: user_id
+                    },
+                    success: function () {
+                        $(this).parent().eq(1).remove();
+                    }
+                });
+                $('#reload').load(location.href + '#reload');
+            });
         });
 
         $('#add_friend').on('submit', function (e) {
@@ -75,15 +91,13 @@ $(document).ready(function () {
         });
 
         $('#cancel_friend').on('click', function () {
-            let senderId = $('#user_id').val();
-            let senderName = $('#user_name').val();
+            let user_id = $('#user_id').val();
 
             $.ajax({
                 url: '/group/' + room,
                 type: 'POST',
                 data: {
-                    senderId: senderId,
-                    senderName: senderName,
+                    user_id: user_id
                 },
                 success: function () {
                     $(this).parent().eq(1).remove();

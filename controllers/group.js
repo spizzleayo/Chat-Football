@@ -122,24 +122,17 @@ module.exports = function (Users, async) {
                         });
                     }
                 },
-            ], (err, results) => {
-                res.redirect('/group/' + req.params.name);
-            });
-
-            async.parallel([
-
-                //this function is updated for the receiver of the friend request when it is canceled 
                 function (callback) {
+                    //this function is updated for the receiver of the friend request when it is canceled 
                     if (req.body.user_id) {
                         Users.update({
                             _id: req.user._id,
-                            'friendsList.friendId': { $ne: req.body.user_id }
+                            'request.userId': { $eq: req.body.user_id }
                         }, {
 
                             $pull: {
                                 request: {
                                     userId: req.body.user_id,
-                                    username: req.body.user_name
                                 }
                             },
                             $inc: {
@@ -155,19 +148,23 @@ module.exports = function (Users, async) {
                     if (req.body.user_id) {
                         Users.update({
                             _id: req.body.user_id,
-                            'friendsList.friendId': { $ne: req.user._id }
+                            'sentRequest.username': { $eq: req.user.username }
                         }, {
                             $pull: {
                                 sentRequest: {
                                     username: req.user.username
                                 }
                             },
-                        }, (err, count) => {
-                            callback(err, count);
-                        });
+                        },
+                            (err, count) => {
+                                callback(err, count);
+                            });
                     }
                 },
-            ]);
+
+            ], (err, results) => {
+                res.redirect('/group/' + req.params.name);
+            });
         }
     };
 };
