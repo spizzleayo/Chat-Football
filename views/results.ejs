@@ -17,10 +17,54 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <%- include ('./partials/navbar') %>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <button
+            type="button"
+            class="navbar-toggle collapsed"
+            data-toggle="collapse"
+            data-target="#bs-example-navbar-collapse-1"
+            aria-expanded="false"
+          >
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/home">Football kik</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right" id="reload">
+            <li><a href="#">Members</a></li>
+            <li class="dropdown">
+              <a
+                href="#"
+                class="dropdown-toggle"
+                data-toggle="dropdown"
+                role="button"
+                aria-haspopup="true"
+                aria-expanded="false"
+                ><%=user.username %> <span class="caret"></span
+              ></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li role="separator" class="divider"></li>
+                <li>
+                  <a href="/logout"
+                    ><span class="fa fa-sign-out">Logout</span></a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
     <div class="col-md-12">
-      <form action="/results" method="post">
+      <form action="#" method="post">
         <div class="form-group ad-30" style="margin-top: 8px">
           <div class="input-group search-style">
             <input
@@ -60,11 +104,6 @@
                           id="country"
                         >
                           <option value="">Filter By Country</option>
-                          <% countries.forEach(function(country){ %>
-                          <option value="<%=country._id%>">
-                            <%=country._id%>
-                          </option>
-                          <%})%>
                         </select>
                         <div class="clearfix"></div>
                         <button class="btn add-apply">Apply</button>
@@ -86,7 +125,7 @@
                     <div class="item col-md-4">
                       <a
                         style="text-decoration: none"
-                        href="/group/<%= val2.name.replace(/ /g,"-") %>"
+                        href="/group/<%= val2.name %>"
                       >
                         <div class="thumbnail">
                           <img alt="" src="/uploads/<%=val2.image %>" />

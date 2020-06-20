@@ -8,6 +8,18 @@ class Global {
         this.globalRoom.push(roomName);
         return roomName;
     }
+    RemoveUser(id) {
+        let user = this.GetUserId(id);
+        if (user) {
+            this.users = this.globalRoom.filter(user => user.id !== id);
+        }
+        return user;
+    }
+
+    GetUserId(id) {
+        let getUser = this.globalRoom.filter(user => user.id === id)[0];
+        return getUser;
+    }
 
     GetRoomList(room) {
         let roomName = this.globalRoom.filter(user => user.room === room);
