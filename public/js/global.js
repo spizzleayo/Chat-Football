@@ -18,19 +18,21 @@ $(document).ready(function () {
         let friend = friends.split('@');
         friend = friend.map(each => each.trim());
         friend = friend.filter(each => each != "");
-        let name = $('#name-user').val();
+        let name = $('#name-user').val().toLowerCase();
         let ol = $('<div></div>');
         let arr = [];
         // console.log('frienddd', friends);
         // consolee.log('frienddd', friend);
 
         for (let i = 0; i < users.length; i++) {
-            console.log(friend.indexOf(users[0].name));
+            // console.log(friend.indexOf(users[0].name));
             if (friend.indexOf(users[i].name) > -1) {
-                console.log(friend.indexOf(users[i].name));
+                // console.log(friend.indexOf(users[i].name));
                 arr.push(users[i]);
+
+                let userName = users[i].name.toLowerCase();
                 let list = '<img src="https://placehold.it/300x300" class="pull-left img-circle" style="width:50px; margin-right:10px;" /><p>' +
-                    '<a id="val" href="/chat"><h3 style="padding-top:15px;color:gray; font-size:14px; ">' + '@' + users[i].name + '<span class="fa fa-circle online_friend"></span></h3></a></p>';
+                    '<a id="val" href="/chat/' + userName.replace(/ /g, "-") + '.' + name.replace(/ /g, "-") + ' "><h3 style="padding-top:15px;color:gray; font-size:14px; ">' + '@' + users[i].name + '<span class="fa fa-circle online_friend"></span></h3></a></p>';
                 ol.append(list);
             }
         }
