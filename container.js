@@ -10,7 +10,8 @@ const simpleDependencies = [
     ['validator', 'validator'],
     ['Users', './models/users'],
     ['formidable', 'formidable'],
-    ['Club', './models/clubs']
+    ['Club', './models/clubs'],
+    ['Message', './models/message']
 ];
 
 simpleDependencies.forEach(val => {
