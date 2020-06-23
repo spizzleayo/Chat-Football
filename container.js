@@ -11,6 +11,7 @@ const simpleDependencies = [
     ['Users', './models/users'],
     ['formidable', 'formidable'],
     ['Club', './models/clubs'],
+    ['Group', './models/groupmessage'],
     ['Message', './models/message']
 ];
 

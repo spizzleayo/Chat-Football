@@ -13,6 +13,10 @@ $(document).ready(function () {
         });
     });
 
+    socket.on('message display', function () {
+        // $('#reload').load(location.href + '#reload');
+    });
+
     socket.on('loggedInUser', function (users) {
         let friends = $('.friend').text();
         let friend = friends.split('@');

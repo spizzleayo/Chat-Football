@@ -1,5 +1,5 @@
 
-module.exports = function (async, Club, _, Users) {
+module.exports = function (async, Club, _, Users, Message, FriendResult) {
     return {
         SetRouting: function (router) {
             router.get('/home', this.homePage);
@@ -30,11 +30,52 @@ module.exports = function (async, Club, _, Users) {
                         .exec((err, result) => {
                             callback(err, result);
                         });
+                },
+                function (callback) {
+                    Message.aggregate([
+                        {
+                            $match: {
+                                $or: [
+                                    { 'senderName': req.user.username },
+                                    { 'receiverName': req.user.username }
+                                ]
+                            }
+                        },
+                        {
+                            $sort: {
+                                createdAt: -1
+                            }
+                        },
+                        {
+                            $group: {
+                                "_id": {
+                                    "last_message_between_": {
+                                        $cond: [
+                                            {
+                                                $gt: [
+                                                    { $substr: ["$senderName", 0, 1] },
+                                                    { $substr: ["$receiverName", 0, 1] },
+                                                ]
+                                            },
+
+                                            { $concat: ["$senderName", " and ", "$receiverName"] },
+                                            { $concat: ["$receiverName", " and ", "$senderName"] }
+
+                                        ]
+                                    }
+                                },
+                                "body": { $first: "$$ROOT" }
+                            }
+                        }
+                    ], function (err, newResult) {
+                        callback(err, newResult);
+                    });
                 }
             ], (err, results) => {
                 const res1 = results[0];
                 const res2 = results[1];
                 const res3 = results[2];
+                const res4 = results[3];
                 // console.log(res1);
                 // console.log(res2);
                 const dataChunk = [];
@@ -58,7 +99,7 @@ module.exports = function (async, Club, _, Users) {
                 // console.log(res2);
 
 
-                res.render('home', { title: 'Footballkik-home', chunks: dataChunk, user: req.user, countries: res2, data: res3 });
+                res.render('home', { title: 'Footballkik-home', chunks: dataChunk, user: req.user, countries: res2, data: res3 ,chat: res4});
             });
         },
         postHomePage: function (req, res) {
@@ -79,10 +120,12 @@ module.exports = function (async, Club, _, Users) {
                             callback(err, count);
                         }
                     );
-                }
+                },    
             ], (err, results) => {
                 res.redirect('/home');
             });
+
+            FriendResult.PostRequest(req, res, '/home');
         },
         logout: function (req, res) {
             req.logout();

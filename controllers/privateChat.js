@@ -1,4 +1,4 @@
-module.exports = function (async, Users, Message) {
+module.exports = function (async, Users, Message, FriendResult) {
     return {
         SetRouting: function (router) {
             router.get('/chat/:name', this.getchatPage);
@@ -52,11 +52,25 @@ module.exports = function (async, Users, Message) {
                     ], function (err, newResult) {
                         callback(err, newResult);
                     });
+                },
+                function (callback) {
+                    Message.find({ $or: [{ 'senderName': req.user.username }, { 'receiverName': req.user.username }] })
+                        .populate('sender')
+                        .populate('receiver')
+                        .exec((err, result3) => {
+                            // console.log(result3);
+                            callback(err, result3);
+                        });
                 }
             ], (err, results) => {
                 const result1 = results[0];
+                const result2 = results[1];
+                const result3 = results[2];
+
+                let nameParam = req.params.name.split('.')[0];
+
                 // console.log('result1 length', result1.request.length);
-                res.render('private/privateChat', { title: 'Footballkik-Private Chat', user: req.user, data: result1 });
+                res.render('private/privateChat', { title: 'Footballkik-Private Chat', user: req.user, data: result1, chat: result2, chats: result3,name: nameParam });
             });
         },
         chatPostPage: function (req, res, next) {
@@ -94,6 +108,9 @@ module.exports = function (async, Users, Message) {
             ], (err, results) => {
                 res.redirect('/chat/' + req.params.name);
             });
+
+            FriendResult.PostRequest(req, res, '/chat/' + req.params.name)
+ 
         }
     };
 };

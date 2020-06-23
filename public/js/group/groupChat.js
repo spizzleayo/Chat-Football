@@ -29,6 +29,20 @@ $(document).ready(function () {
             }
         });
 
+        $.ajax({
+            url: '/group/' + room,
+            type: 'POST',
+            data: {
+                message: 'msg',
+                group: room
+            },
+            success: function () {
+                if (msg.length) {
+                    $('#msg').val("");
+                }
+            }
+        });
+
     });
 
     socket.on('usersList', function (users) {

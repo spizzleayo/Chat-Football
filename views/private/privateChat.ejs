@@ -107,7 +107,10 @@
 
                 <div class="chat_area">
                   <ul id="messages" class="list-unstyled">
-                    <!-- <li class="left">
+                    <% if(chats.length>0){%>
+                    <% chats.forEach(function(val){%>
+                    <% if(name===val.receiver.username.toLowerCase()){%>
+                    <li class="left">
                       <span class="chat-img1 pull-left">
                         <img
                           src="http://placehold.it/300x300"
@@ -116,11 +119,29 @@
                         />
                       </span>
                       <div class="chat-body1">
-                        <span class="chat-name">Username</span>
+                        <span class="chat-name"><%=val.senderName%></span>
                         <br />
-                        Message Body
+                        <%=val.message%>
                       </div>
-                    </li> -->
+                    </li>
+                    <% }else if(name===val.sender.username.toLowerCase()){%>
+                      <li class="left">
+                        <span class="chat-img1 pull-left">
+                          <img
+                            src="http://placehold.it/300x300"
+                            class="img-circle"
+                            alt=""
+                          />
+                        </span>
+                        <div class="chat-body1">
+                          <span class="chat-name"><%=val.senderName%></span>
+                          <br />
+                          <%=val.message%>
+                        </div>
+                      </li>
+                    <% }%>
+                    <% })%>
+                    <% }%>
                   </ul>
                   <script id="message-template" type="text/template">
                     <li class="left">
@@ -248,5 +269,6 @@
     <script src="/js/group/sendRequest.js"></script>
     <script src="/js/global.js"></script>
     <script src="/js/deparam.js"></script>
+    <script src="/js/messageLink.js"></script>
   </body>
 </html>
