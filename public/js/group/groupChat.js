@@ -33,7 +33,7 @@ $(document).ready(function () {
             url: '/group/' + room,
             type: 'POST',
             data: {
-                message: 'msg',
+                message: msg,
                 group: room
             },
             success: function () {

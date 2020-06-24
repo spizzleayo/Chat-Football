@@ -109,7 +109,9 @@
 
                 <div class="chat_area">
                   <ul id="messages" class="list-unstyled">
-                    <!-- <li class="left">
+                    <% groupMsg.forEach(function(val){ %>
+                      <%if(groupName===val.name){%>
+                    <li class="left">
                       <span class="chat-img1 pull-left">
                         <img
                           src="http://placehold.it/300x300"
@@ -118,11 +120,13 @@
                         />
                       </span>
                       <div class="chat-body1">
-                        <span class="chat-name">Username</span>
+                        <span class="chat-name"><%=val.sender.username%></span>
                         <br />
-                        Message Body
+                        <%=val.body%>
                       </div>
-                    </li> -->
+                    </li>
+                    <% }%>
+                    <% })%>
                   </ul>
                   <script id="message-template" type="text/template">
                     <li class="left">
@@ -148,6 +152,7 @@
                       type="hidden"
                       id="groupName"
                       value="<%= groupName%>"
+                      name="groupName"
                     />
                     <input
                       type="hidden"

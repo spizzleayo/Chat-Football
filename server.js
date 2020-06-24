@@ -17,13 +17,13 @@ const express = require('express'),
     container = require('./container');
 
 
-container.resolve((users, admin, home, group, results, privateChat, Message) => {
+container.resolve((users, admin, home, group, results, privateChat, Message, profile) => {
     mongoose.Promise = global.Promise;
     mongoose.connect('mongodb://localhost/footballkik', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
-    const app = SetupExpress(users, admin, home, group, results, privateChat, Message);
+    const app = SetupExpress(users, admin, home, group, results, privateChat, Message, profile);
 
-    function SetupExpress(users, admin, home, group, results, privateChat, Message) {
+    function SetupExpress(users, admin, home, group, results, privateChat, Message, profile) {
         const app = express();
         const server = http.createServer(app);
         const io = socketIO(server);
@@ -45,6 +45,7 @@ container.resolve((users, admin, home, group, results, privateChat, Message) => 
         group.SetRouting(router);
         results.SetRouting(router);
         privateChat.SetRouting(router);
+        profile.SetRouting(router);
 
         app.use(router);
     }

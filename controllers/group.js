@@ -59,12 +59,19 @@ module.exports = function (Users, async, Message, FriendResult, Group) {
                     ], function (err, newResult) {
                         callback(err, newResult);
                     });
+                },
+                function (callback) {
+                    Group.find({})
+                        .populate('sender')
+                        .exec((err, result) => {
+                            callback(err, result);
+                        })
                 }
             ], (err, results) => {
                 const result1 = results[0];
                 const result2 = results[1];
-                // console.log('result1 length', result1.request.length);
-                res.render('groupchat/group', { title: 'Footballkik-Group', groupName: name, user: req.user, data: result1, chat: result2 });
+                    const result3 = results[2];
+                    res.render('groupchat/group', { title: 'Footballkik-Group', groupName: name, user: req.user, data: result1, chat: result2, groupMsg: result3 });
             });
         },
 
@@ -77,10 +84,18 @@ module.exports = function (Users, async, Message, FriendResult, Group) {
                         const group = new Group();
                         group.sender = req.user._id;
                         group.body = req.body.message;
-                        group.name = req.body.groupName
+                        group.name = req.body.group;
+                        group.createdAt = new Date();
+
+                        group.save((err, data) => {
+                            // console.log(data);
+                            callback(err, data);
+                        })
                     }
                 }
-            ]);
+            ], (err, results) => {
+                res.redirect('/group' + req.params.name);
+            });
         },
         logout: function (req, res) {
             req.logout();
