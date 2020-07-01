@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function () {
     let socket = io();
     let paramOne = $.deparam(window.location.pathname);
 
@@ -12,25 +12,27 @@ $(document).ready(function(){
             room1: paramOne,
             room2: paramTwo
         };
-      socket.emit('join PM',params);
+        socket.emit('join PM', params);
+
+        socket.on('new refresh', () => {
+            $('#reload').load(location.href + ' #reload');
+        });
     });
 
-    socket.on('new refresh',()=>{
-        $('#reload').load(location.href+' #reload')
-    })
 
-    $(document).on('click','#messageLink',function(){
+
+    $(document).on('click', '#messageLink', function () {
         let chatId = $(this).data().value;
         console.log(chatId);
 
         $.ajax({
-            url: '/chat/'+paramOne,
+            url: '/chat/' + paramOne,
             type: 'POST',
-            data: {chatId:chatId},
-            success:function(){}
+            data: { chatId: chatId },
+            success: function () { }
         });
 
-        socket.emit('refresh',{})
+        socket.emit('refresh', {});
     });
 
 });

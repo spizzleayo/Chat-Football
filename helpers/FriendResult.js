@@ -85,7 +85,7 @@ module.exports = function (async, Users, Message) {
                             $push: {
                                 friendsList: {
                                     friendId: req.user._id,
-                                    friendName: req.user.userame
+                                    friendName: req.user.username
                                 }
                             },
                             $pull: {

@@ -49,7 +49,11 @@
                 ><%=user.username %> <span class="caret"></span
               ></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
+                <li>
+                  <a href="/settings/profile"
+                    ><span class="fa fa-user">Profile</span></a
+                  >
+                </li>
                 <li role="separator" class="divider"></li>
                 <li>
                   <a href="/logout"
@@ -123,16 +127,20 @@
                   <% val.forEach(function(val2){%>
                   <form action="/home" method="post" id="favorite">
                     <div class="item col-md-3">
-                      <a
-                        style="text-decoration: none"
-                        href="#"
-                      >
+                      <a style="text-decoration: none" href="#">
                         <div class="thumbnail">
-                          <img alt="" src="/uploads/download.jpeg" />
+                          <img
+                            alt=""
+                            src="/uploads/users/<%=val2.userImage %>"
+                            style="height: 500px; "
+                            class="img-responsive img-user"
+                          />
                           <div class="caption">
                             <div class="row">
                               <div class="col-xs-12 col-md-6">
-                                <h4 style="color: #4aa1f3;"><%=val2.username%></h4>
+                                <h4 style="color: #4aa1f3">
+                                  <%=val2.username%>
+                                </h4>
                               </div>
                             </div>
                           </div>
