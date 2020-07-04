@@ -12,7 +12,8 @@
       <%= numberOfTrue %> 
     </span>
     <% }else{ %>
-      <span class="fa fa-globe"></span> <b class="caret"></b>
+      
+      +<span class="fa fa-globe"></span> <b class="caret"></b>
       <span class="label label-primary nav-label-icon" id=""></span>
   <% } %>
 </a>
@@ -35,7 +36,7 @@
             <div class="col-md-3">
               <p class="text-center">
                 <img
-                  src="https://placehold.it/300x300"
+                  src="/uploads/users/<%=val.body.receiver.userImage%>"
                   class="img-circle img-responsive dropdown-img"
                 />
               </p>
@@ -65,7 +66,7 @@
             <div class="col-md-3">
               <p class="text-center">
                 <img
-                  src="https://placehold.it/300x300"
+                  src="/uploads/users/<%=val.body.receiver.userImage%>"
                   class="img-circle img-responsive dropdown-img"
                 />
               </p>

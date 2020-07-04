@@ -41,7 +41,7 @@
                         <div class="cover"></div>
                         <div class="user cover-img">
                           <img
-                            src="https://placehold.it/300x300"
+                            src="/uploads/users/<%=user.userImage%>"
                             class="img-circle"
                             alt=""
                           />
@@ -56,11 +56,13 @@
                               ></i>
                               Online
                             </p>
-                            <p class="text-center">Mantra</p>
+                            <p class="text-center">
+                              <%= user.mantra %>
+                            </p>
                           </div>
                           <div class="footer">
                             <i class="fa fa-mail-forward"></i>
-                            <a href="#"> View My Profile </a>
+                            <a style="text-decoration: none;color: #4aa1f3;" href="/profile/<%=user.username%>"> View My Profile </a>
                           </div>
                         </div>
                       </div>

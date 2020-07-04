@@ -57,7 +57,14 @@ module.exports = function (Users, async, Message, FriendResult, Group) {
                             }
                         }
                     ], function (err, newResult) {
-                        callback(err, newResult);
+                            const arr = [
+                                { path: 'body.sender', model: 'User' },
+                                { path: 'body.receiver', model: 'User' }
+                            ];
+                            Message.populate(newResult, arr, (err, newResult1) => {
+                                // console.log(newResult1[0].body.sender, newResult1[0].body.receiver);
+                                callback(err, newResult1);
+                            })
                     });
                 },
                 function (callback) {
