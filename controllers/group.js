@@ -17,6 +17,7 @@ module.exports = function (Users, async, Message, FriendResult, Group) {
                     Users.findOne({ 'username': req.user.username })
                         .populate('request.userId')
                         .exec((err, result) => {
+                            console.log(result);
                             callback(err, result);
                         });
                 },

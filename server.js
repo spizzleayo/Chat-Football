@@ -14,12 +14,15 @@ const express = require('express'),
     { Users } = require('./helpers/UsersClass'),
     { Global } = require('./helpers/Global'),
     _ = require('lodash'),
+    compression = require('compression'),
+    helmet = require('helmet'),
     container = require('./container');
 
 
 container.resolve((users, admin, home, group, results, privateChat, Message, profile, interest, news) => {
     mongoose.Promise = global.Promise;
     mongoose.connect('mongodb://localhost/footballkik', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
+    // mongoose.connect(`mongodb+srv://nikhil:nehminilu@cluster0.udzon.mongodb.net/footballkik?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 
     const app = SetupExpress(users, admin, home, group, results, privateChat, Message, profile, interest, news);
 
@@ -57,6 +60,9 @@ container.resolve((users, admin, home, group, results, privateChat, Message, pro
         require('./passport/passport-local');
         require('./passport/passport-facebook');
         require('./passport/passport-google');
+
+        app.use(compression());
+        app.use(helmet());
 
         app.use(express.static('public'));
         app.use(cookieParser());
