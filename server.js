@@ -14,15 +14,15 @@ const express = require('express'),
     { Users } = require('./helpers/UsersClass'),
     { Global } = require('./helpers/Global'),
     _ = require('lodash'),
-    compression = require('compression'),
     helmet = require('helmet'),
+    compression = require('compression'),
     container = require('./container');
 
-
+require('dotenv').config();
 container.resolve((users, admin, home, group, results, privateChat, Message, profile, interest, news) => {
     mongoose.Promise = global.Promise;
-    mongoose.connect('mongodb://localhost/footballkik', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
-    // mongoose.connect(`mongodb+srv://nikhil:nehminilu@cluster0.udzon.mongodb.net/footballkik?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+    // mongoose.connect('mongodb://localhost/footballkik', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
+    mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
     const app = SetupExpress(users, admin, home, group, results, privateChat, Message, profile, interest, news);
 
@@ -30,8 +30,8 @@ container.resolve((users, admin, home, group, results, privateChat, Message, pro
         const app = express();
         const server = http.createServer(app);
         const io = socketIO(server);
-        server.listen(PORT, () => {
-            console.log(`server listening at ${PORT}`);
+        server.listen(PORT || process.env.PORT, () => {
+            console.log(`server listening at ${PORT || process.env.PORT}`);
         });
         ConfigureExpress(app);
 
@@ -53,6 +53,9 @@ container.resolve((users, admin, home, group, results, privateChat, Message, pro
         news.SetRouting(router)
 
         app.use(router);
+        app.use(function (req, res) {
+            res.render('404');
+        })
     }
 
 
@@ -72,7 +75,7 @@ container.resolve((users, admin, home, group, results, privateChat, Message, pro
 
         // app.use(expressValidator());
         app.use(session({
-            secret: 'thajkhjdsajk',
+            secret: process.env.SESSION_SECRET,
             resave: true,
             saveUninitialized: true,
             store: new MongoStore({ mongooseConnection: mongoose.connection })
@@ -83,6 +86,7 @@ container.resolve((users, admin, home, group, results, privateChat, Message, pro
         app.use(passport.session());
 
         // app.locals._ = _;
+        []
     };
 });
 
